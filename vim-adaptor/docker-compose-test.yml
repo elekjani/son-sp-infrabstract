@@ -1,22 +1,14 @@
-version: '2'
-services:
-  son-sp-infrabstract:
-    image: registry.sonata-nfv.eu:5000/son-sp-infrabstract
-    entrypoint: /test.sh
-    links:
-     - postgres 
-    environment:
-     - repo_host postgres
-     - repo_port 5432
-     - repo_user sonata
-     - repo_pass sonatatest
-    volumes:
-     - ./reports:/adaptor/target
+version: '3'
 
-  postgres:
-    image: ntboes/postgres-uuid
-    ports:
-     - "5432"
-    environment:
-     - POSTGRES_PASSWORD=sonata
-     - POSTGRES_USER=sonatatest
+networks:
+  service_network:
+    external: true
+
+services:
+  son-infra:
+    build: ./vim-adaptor/
+    image: son-infra:SNAPSHOT
+    conntainer_name: son-infra
+    networks:
+      - service_network
+    command: ./run_local.sh
