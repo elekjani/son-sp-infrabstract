@@ -265,21 +265,11 @@ public class DeployServiceFsm implements Runnable {
         referenceVdur.addVnfcInstance(vnfc);
       }
 
-      NetworkWrapper netVim = (NetworkWrapper) WrapperBay.getInstance().getVimRepo()
-          .getNetworkVimFromComputeVimUuid(this.data.getVimUuid()).getVimWrapper();
-
       response.setVimUuid(data.getVimUuid());
       response.setInstanceName(stackName);
       response.setInstanceVimUuid(stackUuid);
       response.setRequestStatus("DEPLOYED");
 
-
-      NetworkConfigurePayload netData = new NetworkConfigurePayload();
-      netData.setNsd(data.getNsd());
-      netData.setServiceInstanceId(data.getNsd().getInstanceUuid());
-      netData.setVnfds(data.getVnfdList());
-      netData.setVnfrs(response.getVnfrs());
-      netVim.configureNetworking(netData);
 
       // Set to null hardware addresses from VNFR:VDU:CONNECTION_POINT to ensure compatibility with
       // VNFR_V1.0
